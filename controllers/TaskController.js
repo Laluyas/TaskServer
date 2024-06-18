@@ -43,9 +43,9 @@ const createTask = async (req, res) => {
       const users = await User.find({ _id: { $in: task.users } });
       task.users = users;
   
-      res.status(200).json(task);
+      res.status(200).json({mssg: "Task created successfully"});
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ mssg: error.message });
     }
   };
 
@@ -53,16 +53,16 @@ const updateTask = async(req,res)=>{
     const {id} = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)){
-        res.status(404).json({error: 'Not a valid id'})
+        res.status(404).json({mssg: 'Not a valid id'})
     }
     const task = await Task.findByIdAndUpdate({_id: id},{
         ...req.body
     }
     )
     if (!task){
-        res.status(400).json({error:'No Task found'})
+        res.status(400).json({mssg:'No Task found'})
     }else{
-        res.status(200).json(task)
+        res.status(200).json({mssg:"Task updated successfully"})
     }
 }
 
