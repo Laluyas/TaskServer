@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt"); // Import bcryptjs for password hashing
+const bcrypt = require("bcryptjs"); // Import bcryptjs for password hashing
 const validator = require("validator");
 
 const createToken = (_id) => {
