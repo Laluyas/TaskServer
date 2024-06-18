@@ -12,33 +12,45 @@ const createToken = (_id) => {
 const loginUser = async (req, res) => {
   const { email, password, role } = req.body;
 
+  // Check if email or password is missing
+  if (!email || !password) {
+    return res.status(400).json({ mssg: 'Email and password are required' });
+  }
+
   try {
     const user = await User.login(email, password, role);
 
-    //create a token
+    // Create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ mssg: "User registered successfully" });
+    res.status(200).json({ mssg: 'User logged in successfully' });
   } catch (error) {
     res.status(400).json({ mssg: error.message });
   }
 };
+
 
 //Register user
 const registerUser = async (req, res) => {
   const { email, password, role } = req.body;
 
+  // Check if email, password, or role is missing
+  if (!email || !password || !role) {
+    return res.status(400).json({ mssg: 'Email, password, and role are required' });
+  }
+
   try {
     const user = await User.register(email, password, role);
 
-    //create a token
+    // Create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ mssg:"User registered successfully" });
   } catch (error) {
     res.status(400).json({ mssg: error.message });
   }
 };
+
 
 //Create new user
 const createUser = async (req, res) => {
