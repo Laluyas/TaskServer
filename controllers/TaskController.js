@@ -43,7 +43,7 @@ const createTask = async (req, res) => {
       const users = await User.find({ _id: { $in: task.users } });
       task.users = users;
   
-      res.status(200).json({mssg: "Task created successfully"});
+      res.status(200).json({mssg: "Task created successfully", id: task._id});
     } catch (error) {
       res.status(400).json({ mssg: error.message });
     }
