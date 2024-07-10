@@ -11,7 +11,13 @@ const app = express();
 app.use(express.json());
 
 // Allow CORS for all routes
-app.use(cors());
+// app.use(cors());
+const corsOptions = {
+    origin: 'https://task-client-jkugxnmhh-yazeeds-projects-986eazfe.vercel.app',
+    optionsSuccessStatus: 200
+  };
+  
+  app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
     console.log(req.path, req.method);
