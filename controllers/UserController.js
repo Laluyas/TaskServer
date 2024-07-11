@@ -18,7 +18,7 @@ const loginUser = async (req, res) => {
     // Create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ mssg: 'User logged in successfully',id: user._id });
+    res.status(200).json({ mssg: 'User logged in successfully',token });
   } catch (error) {
     res.status(400).json({ mssg: error.message });
   }
@@ -42,18 +42,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-
-//Create new user
-const createUser = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.create({ email, password });
-
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
 
 //Get all users
 const getUsers = async (req, res) => {
@@ -189,7 +177,6 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  createUser,
   getUser,
   getUsers,
   deleteUser,
