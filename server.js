@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const taskRoutes = require('./routes/TaskRoutes');
 const userRoutes = require('./routes/UserRoutes');
 const cors = require('cors');
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 // Express app
 const app = express();
@@ -28,7 +31,7 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB database
-mongoose.connect("mongodb+srv://yazeed:5707538E@cluster0.11nyslj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
