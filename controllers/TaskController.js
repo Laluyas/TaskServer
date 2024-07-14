@@ -62,7 +62,7 @@ const updateTask = async(req,res)=>{
     if (!task){
         res.status(400).json({mssg:'No Task found'})
     }else{
-        res.status(200).json({mssg:"Task updated successfully"})
+        res.status(200).json({mssg:"Task updated successfully", task})
     }
 }
 

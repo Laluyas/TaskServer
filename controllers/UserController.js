@@ -3,9 +3,12 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs"); // Import bcryptjs for password hashing
 const validator = require("validator");
+const dotenv = require('dotenv')
 
-const createToken = (_id) => {
-  return jwt.sign({ _id }, "zR8#fWk2@MnP!dS5", { expiresIn: "1h" });
+dotenv.config()
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "1h" });
 };
 
 //Login user
@@ -18,7 +21,13 @@ const loginUser = async (req, res) => {
     // Create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ mssg: 'User logged in successfully',token });
+    res.status(200).json({
+      mssg: 'User logged in successfully',
+      id: user._id,
+      email: user.email,
+      token: createToken(user._id)
+    })
+
   } catch (error) {
     res.status(400).json({ mssg: error.message });
   }
@@ -29,14 +38,14 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
   const { email, password, role } = req.body;
 
-
   try {
     const user = await User.register(email, password, role);
-
-    // Create a token
-    const token = createToken(user._id);
-
-    res.status(200).json({ mssg:"User registered successfully" ,id: user._id });
+    res.status(201).json({
+      mssg:"User registered successfully" ,
+      _id: user._id,
+      email: user.email,
+      token: createToken(user._id)
+    });
   } catch (error) {
     res.status(400).json({ mssg: error.message });
   }
@@ -176,6 +185,15 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const verifyToken = (req,res) =>{
+  try {
+    // If the request reaches here, it means the token is valid
+    res.status(200).json({ message: 'Token is valid' });
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+}
+
 module.exports = {
   getUser,
   getUsers,
@@ -183,4 +201,5 @@ module.exports = {
   updateUser,
   loginUser,
   registerUser,
+  verifyToken,
 };
