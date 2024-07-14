@@ -36,8 +36,8 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 })
 .then(() => {
-    app.listen(4000, ()=>{
-        console.log("Server listening on port 4000")
+    app.listen(process.env.PORT, ()=>{
+        console.log(`Server listening on port ${process.env.PORT}`)
     })
 })
 .catch((error) => {
